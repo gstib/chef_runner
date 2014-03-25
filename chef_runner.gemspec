@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = ChefRunner::VERSION
   spec.authors       = ['Grant Tibbey']
   spec.email         = ['granttibbey@hotmail.com']
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Gem to install Chef recipes remotely without a Chef server}
+  spec.description   = %q{Gem to install Chef recipes remotely without a Chef server}
   spec.homepage      = ''
   spec.license       = 'MIT'
 

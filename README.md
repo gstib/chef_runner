@@ -1,4 +1,4 @@
-# Chef::Runner
+# ChefRunner
 
 TODO: Write a gem description
 
