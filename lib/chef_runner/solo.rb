@@ -28,7 +28,7 @@ module ChefRunner
         Solo.extract_chef_repo(self)
         Solo.upload_solo_file(self, environment)
         Solo.upload_node_file(self, host.chef[:run_list])
-        Solo.upload_chef_secret(self, secret_path)
+        Solo.upload_chef_secret(self, secret_path) if secret_path
         Solo.run_chef_solo(self)
       }
     end
