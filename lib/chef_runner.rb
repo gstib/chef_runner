@@ -1,5 +1,5 @@
 require_relative 'chef_runner/bootstrap'
-#require_relative 'chef_runner/solo'
+require_relative 'chef_runner/solo'
 
 module ChefRunner
   extend self
@@ -10,9 +10,9 @@ module ChefRunner
       ChefRunner::Bootstrap.new(params).run
     end
 
-    #  def solo params
-    #    ChefRunner::Solo.new(params).run
-    #  end
+    def solo params
+      ChefRunner::Solo.new(params).run
+    end
 
   end
 end

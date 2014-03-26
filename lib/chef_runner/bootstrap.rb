@@ -15,8 +15,6 @@ module ChefRunner
     private
 
     def create_hosts
-      puts @params
-
       @params[:servers].collect { |server|
         ChefHost.new(server[:host], @params[:ssh])
       }

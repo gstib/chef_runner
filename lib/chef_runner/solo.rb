@@ -1,7 +1,5 @@
-=begin
 require 'sshkit/dsl'
 require_relative 'chef_host'
-
 
 module ChefRunner
   class Solo
@@ -29,25 +27,25 @@ module ChefRunner
         Solo.upload_chef_repo(self)
         Solo.extract_chef_repo(self)
         Solo.upload_solo_file(self, environment)
-        Solo.upload_node_file(self, host.server[:chef][:run_list])
+        Solo.upload_node_file(self, host.chef[:run_list])
         Solo.upload_chef_secret(self, secret_path)
         Solo.run_chef_solo(self)
       }
     end
 
     def get_servers
-      @params['servers']
+      @params[:servers]
     end
 
     def create_hosts(servers)
       servers.collect { |server|
-        ChefHost.new(server['host'], server, server['ssh'])
+        ChefHost.new(server[:host], @params[:ssh], server[:chef])
       }
     end
 
     def tar_chef_repo
       tar_path = File.join(Dir.pwd, 'chef-repo.tar.gz')
-      puts system "tar -czf #{tar_path} -C #{@chef_repo_path} ."
+      system "tar -czf #{tar_path} -C #{@chef_repo_path} ."
     end
 
     def cleanup_tar
@@ -66,13 +64,15 @@ module ChefRunner
 
     def self.upload_solo_file(backend, environment)
       repo = '/tmp/chef-repo/'
+      environment_line = environment ? "environment '#{environment}'" : nil
+
       solo = <<-EOF
 solo true
 cookbook_path '#{repo}cookbooks'
 role_path '#{repo}roles'
 data_bag_path '#{repo}data_bags'
 environment_path '#{repo}environments'
-environment '#{environment}'
+#{environment_line}
 log_level :info
 verbose_logging false
       EOF
@@ -94,4 +94,4 @@ verbose_logging false
     end
   end
 end
-=end
+
