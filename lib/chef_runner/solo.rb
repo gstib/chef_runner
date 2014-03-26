@@ -1,13 +1,15 @@
+=begin
 require 'sshkit/dsl'
 require_relative 'chef_host'
 
-module ChefRunner #ChefRemote
+
+module ChefRunner
   class Solo
 
-    def initialize(json)
-      @json = json
-      @chef_repo = json['chef-repo']
-      @chef_repo_path = @chef_repo['path']
+    def initialize(params)
+      @params = params
+      @chef_repo = params[:chef_repo]
+      @chef_repo_path = @chef_repo[:path]
     end
 
     def run
@@ -20,21 +22,21 @@ module ChefRunner #ChefRemote
 
       servers = get_servers
       hosts = create_hosts servers
-      environment = @json['environment']
-      secret_path = @chef_repo['secret']
+      environment = @params[:environment]
+      secret_path = @chef_repo[:secret]
       on(hosts) { |host|
 
         Solo.upload_chef_repo(self)
         Solo.extract_chef_repo(self)
         Solo.upload_solo_file(self, environment)
-        Solo.upload_node_file(self, host.server['chef']['run_list'])
+        Solo.upload_node_file(self, host.server[:chef][:run_list])
         Solo.upload_chef_secret(self, secret_path)
         Solo.run_chef_solo(self)
       }
     end
 
     def get_servers
-      @json['servers']
+      @params['servers']
     end
 
     def create_hosts(servers)
@@ -92,3 +94,4 @@ verbose_logging false
     end
   end
 end
+=end

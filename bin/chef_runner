@@ -10,6 +10,7 @@ class ChefRunnerExec < Thor
 
   SSHKit.config.output_verbosity=Logger::DEBUG
 
+=begin
   map '-b' => :bootstrap
   desc '-b JSON_FILE', 'Bootstraps chef solo'
   def bootstrap(json_file)
@@ -21,6 +22,7 @@ class ChefRunnerExec < Thor
   def run_solo(json_file)
     ChefRunner::Solo.new(JSON.parse(IO.read(json_file))).run
   end
+=end
 
 end
 

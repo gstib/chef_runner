@@ -4,25 +4,21 @@ require_relative 'chef_host'
 module ChefRunner
   class Bootstrap
 
-    def initialize(json)
-      @json = json
+    def initialize(params)
+      @params = params
     end
 
     def run
-      servers = get_servers
-      hosts = create_hosts servers
-      bootstrap_hosts hosts
+      bootstrap_hosts(create_hosts)
     end
 
     private
 
-    def get_servers
-      @json['servers'].select { |server| server['chef']['bootstrap'] }
-    end
+    def create_hosts
+      puts @params
 
-    def create_hosts(servers)
-      servers.collect { |server|
-        ChefHost.new(server['host'], server, server['ssh'])
+      @params[:servers].collect { |server|
+        ChefHost.new(server[:host], @params[:ssh])
       }
     end
 
