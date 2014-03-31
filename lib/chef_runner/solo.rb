@@ -21,7 +21,7 @@ module ChefRunner
       servers = get_servers
       hosts = create_hosts servers
       environment = @params[:environment]
-      secret_path = @chef_repo[:secret]
+      secret_path = File.expand_path(@chef_repo[:secret])
       on(hosts) { |host|
 
         Solo.upload_chef_repo(self)
