@@ -17,7 +17,7 @@ module ChefRunner
 
     def create_hosts
       @params[:servers].collect { |server|
-        ChefHost.new(server[:host], @params[:ssh])
+        ChefHost.new(server[:host], @params[:ssh_options])
       }
     end
 
