@@ -21,7 +21,7 @@ module ChefRunner
       servers = get_servers
       hosts = create_hosts servers
       environment = @params[:environment]
-      secret_path = File.expand_path(@chef_repo[:secret])
+      secret_path = @chef_repo[:secret]
       on(hosts) { |host|
 
         Solo.upload_chef_repo(self)
@@ -86,7 +86,7 @@ verbose_logging false
     end
 
     def self.upload_chef_secret(backend, secret_file)
-      backend.upload!(secret_file, '/tmp')
+      backend.upload!(File.expand_path(secret_file), '/tmp')
     end
 
     def self.run_chef_solo(backend)
