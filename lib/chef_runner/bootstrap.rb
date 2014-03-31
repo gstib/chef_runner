@@ -4,8 +4,9 @@ require_relative 'chef_host'
 module ChefRunner
   class Bootstrap
 
-    def initialize(params)
+    def initialize(params, force = false)
       @params = params
+      @force = force
     end
 
     def run
@@ -22,8 +23,13 @@ module ChefRunner
 
     def bootstrap_hosts(hosts)
       on(hosts) {
-        execute :curl, '-L https://www.opscode.com/chef/install.sh | sudo bash'
+        install = @force || !Bootstrap.chef_installed?(self)
+        execute :curl, '-L https://www.opscode.com/chef/install.sh | sudo bash' if install
       }
+    end
+
+    def self.chef_installed?(backend)
+      backend.test 'chef-solo'.to_sym, '-v'
     end
 
   end
