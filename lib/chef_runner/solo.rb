@@ -75,6 +75,7 @@ environment_path '#{repo}environments'
 #{environment_line}
 log_level :info
 verbose_logging false
+ssl_verify_mode :verify_peer
       EOF
 
       backend.upload! StringIO.new(solo), '/tmp/solo.rb'
